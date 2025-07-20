@@ -23,6 +23,16 @@ Node* createNode(Node* previous, char* item) {
     return node;
 }
 
+void insertInFile(char *item) {
+    FILE *fileTarefas;
+    fileTarefas = fopen("tarefas.txt", "a");
+    if(fileTarefas == NULL) {
+        printf("Erro ao adicionar tarefa!");
+        return;
+    }
+    fprintf(fileTarefas, "%s ", item);
+}
+
 void insert(Node** root, Node** current) {
     char controlMain[10] = "Sim";
     while(strcmp(controlMain, "Sim") == 0) {
@@ -33,12 +43,14 @@ void insert(Node** root, Node** current) {
             *root = createNode(NULL, itemName);
             printf("\nDeseja adicionar mais? (Sim/Nao)");
             scanf("%s", controlMain);
+            insertInFile((*root)->item);
         } else {
             if((*root)->next == NULL) {
                 *current = createNode(*root, itemName);
             } else {
                 *current = createNode(*current, itemName);
             }
+            insertInFile((*current)->item);
             printf("\nDeseja adicionar mais? (Sim/Nao)");
             scanf("%s", controlMain);
         }
